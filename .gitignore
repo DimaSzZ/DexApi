@@ -1,0 +1,17 @@
+*.sdf
+*.sln.docstates
+*.suo
+*.upgradelogxml
+*.user
+*.vcxproj.filters
+*.sln.old
+*.suo.old
+UpgradeLog.XML
+*.wixproj.vspscc
+*.csproj.vspscc
+*.SCC
+*.ncb
+*.opt
+*.plg
+*.точки доступа
+*.clw

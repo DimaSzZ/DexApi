@@ -1,4 +1,4 @@
-﻿namespace MyTestTask.dto.SearchFolder.Request
+﻿namespace MyTestTask.dto.Search.Request
 {
     public class SearchCriteriaRequest
     {

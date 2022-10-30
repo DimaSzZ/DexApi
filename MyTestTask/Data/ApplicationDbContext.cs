@@ -8,11 +8,21 @@ namespace MyTestTask.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var ad = modelBuilder.Entity<Ad>();
+            ad.ToTable("DataBaseAd");
+            ad.HasKey(b=>b.Id);
+            ad.HasOne(b => b.Persona).WithMany(a=>a.Advertising).HasForeignKey("Person_Id");
+            ad.Property(b => b.Number).HasMaxLength(30);
 
+
+            var person = modelBuilder.Entity<Person>();
+            person.ToTable("DataBasePerson");
+            person.HasKey(b => b.Id);
+            person.Property(b => b.Name).HasMaxLength(20);
+        }
         public DbSet<Person>? Persons { get; set; }
-        public DbSet<Advertising>? Advertisings { get; set; }
-        public DbSet<Subcategories>? Subcategories { get; set; }
-        public DbSet<Categories>? Categories { get; set; }
-        public DbSet<Cities>? Cities { get; set; }
+        public DbSet<Ad>? Ad { get; set; }
     }
 }

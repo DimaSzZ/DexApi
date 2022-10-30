@@ -1,7 +1,7 @@
-﻿namespace MyTestTask.dto.AdvertisementFolder.Request
+﻿namespace MyTestTask.dto.Advertisement.Request
 {
     public class DeleteYourAdvertisementRequest
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

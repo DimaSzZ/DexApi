@@ -17,20 +17,18 @@ namespace MyTestTask
         {
             this.key = key;
         }
-        public string? Authenticate(string? username,string? password,string? number, ApplicationDbContext _db)
+        public string? Authenticate(string? username,bool Admin, ApplicationDbContext _db)
         {
-            if (_db.Persons != null && !_db.Persons.Any(u=>u.Name == username && u.Password == password && u.Number == number))
+            if (_db.Persons != null && !_db.Persons.Any(u=>u.Name == username && u.Admin == Admin))
             return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            Debug.Assert(key != null, nameof(key) + " != null");
             var tokenkey = Encoding.ASCII.GetBytes(key);
-            Debug.Assert(number != null, nameof(number) + " != null");
             var tokenDiscriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name,number)
+                    new Claim(ClaimTypes.Name,username)
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(

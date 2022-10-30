@@ -5,6 +5,8 @@ using MyTestTask;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MyTestTask.Services.AdService;
+using MyTestTask.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +55,7 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
+builder.Services.AddTransient<IUserController, UserControllerLogic>();
 builder.Services.AddSingleton<JwtAuthenticationManager>(new JwtAuthenticationManager(key));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(

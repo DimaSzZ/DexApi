@@ -1,4 +1,4 @@
-﻿namespace MyTestTask.dto.SearchFolder.Response
+﻿namespace MyTestTask.dto.Search.Response
 {
     public class SearchCriteriaResponse
     {

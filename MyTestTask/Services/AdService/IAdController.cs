@@ -6,9 +6,9 @@ namespace MyTestTask.Services.AdService
 {
     public interface IAdController
     {
-        void PushAd(ApplicationDbContext _db, PostAdvertisementRequest CreateAdcontext);
-        void UpdateAd(ApplicationDbContext _db, UpdateYourAdvertisementRequest UpdateContext);
-        void DeleteAd(ApplicationDbContext _db, DeleteYourAdvertisementRequest DeleteContext);
-        IQueryable<Ad> GetAllAd(ApplicationDbContext _db);
+        Task<string> PushAd(ApplicationDbContext _db, PostAdvertisementRequest CreateAdcontext);
+        Task<string> UpdateAd(ApplicationDbContext _db, UpdateYourAdvertisementRequest UpdateContext);
+        Task<string> DeleteAd(ApplicationDbContext _db, DeleteYourAdvertisementRequest DeleteContext);
+        Task<List<Ad>> GetAllAd(ApplicationDbContext _db);
     }
 }

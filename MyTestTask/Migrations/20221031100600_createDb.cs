@@ -33,24 +33,23 @@ namespace MyTestTask.Migrations
                     Rating = table.Column<string>(type: "text", nullable: false),
                     PublicationDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     ExpirationDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Person_Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    PersonId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DataBaseAd", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DataBaseAd_DataBasePerson_Person_Id",
-                        column: x => x.Person_Id,
+                        name: "FK_DataBaseAd_DataBasePerson_PersonId",
+                        column: x => x.PersonId,
                         principalTable: "DataBasePerson",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DataBaseAd_Person_Id",
+                name: "IX_DataBaseAd_PersonId",
                 table: "DataBaseAd",
-                column: "Person_Id");
+                column: "PersonId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

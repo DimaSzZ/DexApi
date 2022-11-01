@@ -12,7 +12,7 @@ namespace MyTestTask.Services.UserService
 
         public UserControllerLogic(IHttpContextAccessor contextAccessor)
         {
-            _contextAccessor = contextAccessor;
+            _contextAccessor = contextAccessor; 
         }
         public async Task<Person> Registration(ApplicationDbContext _db, RegistrationUserRequest registrationUserRequest)
         {

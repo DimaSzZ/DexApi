@@ -46,9 +46,6 @@ namespace MyTestTask.Migrations
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("Person_Id")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTimeOffset>("PublicationDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -58,7 +55,7 @@ namespace MyTestTask.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Person_Id");
+                    b.HasIndex("PersonId");
 
                     b.ToTable("DataBaseAd", (string)null);
                 });
@@ -84,13 +81,13 @@ namespace MyTestTask.Migrations
 
             modelBuilder.Entity("MyTestTask.Models.Ad", b =>
                 {
-                    b.HasOne("MyTestTask.Models.Person", "Persona")
+                    b.HasOne("MyTestTask.Models.Person", "Persons")
                         .WithMany("Advertising")
-                        .HasForeignKey("Person_Id")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Persona");
+                    b.Navigation("Persons");
                 });
 
             modelBuilder.Entity("MyTestTask.Models.Person", b =>

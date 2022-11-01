@@ -1,9 +1,10 @@
-﻿using System.Diagnostics;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyTestTask.Data;
 using MyTestTask.dto.Advertisement.Request;
-using MyTestTask.Models;
+using MyTestTask.dto.Advertisement.Response;
+using MyTestTask.Services.AdService;
 
 namespace MyTestTask.Controllers
 {
@@ -11,65 +12,44 @@ namespace MyTestTask.Controllers
     [Route("Advertisement")]
     public class AdvertisementController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly ApplicationDbContext _db;
-
-        public AdvertisementController(ApplicationDbContext db)
+        private readonly IAdController _adController;
+        public AdvertisementController(ApplicationDbContext db, IAdController adController, IMapper mapper)
         {
             _db = db;
+            _adController = adController;
+            _mapper = mapper;
         }
 
         [Authorize]
         [HttpPost("CreateAd")]
         public async Task<IActionResult> AddAd([FromBody] PostAdvertisementRequest CreateAdcontext)
         {
-            var ct = new Ad
-            {
-                Number = CreateAdcontext.Number,
-                Description = CreateAdcontext.Description,
-                Page = CreateAdcontext.Page,
-                Rating = CreateAdcontext.Rating,
-                PublicationDate = DateTimeOffset.Now.UtcDateTime,
-                ExpirationDate = DateTimeOffset.Now.UtcDateTime.AddDays(5)
-            };
-
-            var personId = Request.Cookies["Id"];
-            if (!string.IsNullOrEmpty(personId))
-                ct.PersonId = Guid.Parse(personId);
-            else
-                return BadRequest("Что то не так с Id пользователя  ");
-
-            await _db.Ad.AddAsync(ct);
-            await _db.SaveChangesAsync();
-            return Ok();
+            var response = await _adController.PushAd(_db, CreateAdcontext);
+            return Ok(response);
         }
         [Authorize]
         [HttpPut("UpdateAd")]
         public async Task<IActionResult> UpdateAd([FromBody] UpdateYourAdvertisementRequest UpdateContext)
         {
-            var advert = _db.Ad.First(x => x.Id == UpdateContext.Id && x.PersonId == Guid.Parse(Request.Cookies["Id"] ?? string.Empty));
-            advert.Number = UpdateContext.Number;
-            advert.Description = UpdateContext.Description;
-            advert.Page = UpdateContext.Page;
-            advert.Rating = UpdateContext.Rating;
-            await _db.SaveChangesAsync();
-            return Ok();
+            var response = await _adController.UpdateAd(_db, UpdateContext);
+            return Ok(response);
         }
         [Authorize]
         [HttpDelete("DeleteAd")]
         public async Task<IActionResult> DeleteAd([FromBody] DeleteYourAdvertisementRequest DeleteContext)
         {
-            var advert = _db.Ad.First(x => x.Id == DeleteContext.Id && x.PersonId == Guid.Parse(Request.Cookies["Id"] ?? string.Empty));
-            _db.Ad.Remove(advert);
-            await _db.SaveChangesAsync();
-            return Ok();
+            var response = await _adController.DeleteAd(_db, DeleteContext);
+            return Ok(response);
         }
         [Authorize]
         [HttpGet("GetYourAllAd")]
         public async Task<IActionResult> GetYourAdvertisements()
         {
-            var advert = _db.Ad.Where(x => x.PersonId == Guid.Parse(Request.Cookies["Id"] ?? string.Empty));
-
-            return Ok(advert.ToList());
+            var zxc = await _adController.GetAllAd(_db);
+            var response = _mapper.Map<GetYourAdvertisementResponse>(zxc);
+            return Ok(response);
         }
     }
 }

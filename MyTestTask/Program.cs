@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyTestTask.Services.AdService;
 using MyTestTask.Services.UserService;
+using MyTestTask.AutoMapper;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,7 +57,10 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
+builder.Services.AddTransient<IAdController, AdControllerLogic>();
 builder.Services.AddTransient<IUserController, UserControllerLogic>();
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<JwtAuthenticationManager>(new JwtAuthenticationManager(key));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(

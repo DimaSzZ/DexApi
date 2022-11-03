@@ -2,7 +2,9 @@
 
 namespace MyTestTask.Models
 {
-
+    ///<summary>
+    ///Модель б\д
+    ///</summary>
     public class Ad
     {
         [Key]

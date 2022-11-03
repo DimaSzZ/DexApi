@@ -2,6 +2,9 @@
 
 namespace MyTestTask.Models
 {
+    ///<summary>
+    ///Модель б\д
+    ///</summary>
     public class Person
     {
         [Key]

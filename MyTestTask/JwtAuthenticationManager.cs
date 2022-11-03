@@ -1,22 +1,28 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Authentication;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using System.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using MyTestTask.Data;
 
 namespace MyTestTask
 {
+    ///<summary>
+    ///Это класс, реализующий создание бирер токена по моей логике
+    ///</summary>
     public class JwtAuthenticationManager
     {
         private readonly string? key;
 
+        ///<summary>
+        ///Конструктор, принимающий ключ для создания уникального токена
+        ///</summary>
         public JwtAuthenticationManager(string key)
         {
             this.key = key;
         }
+        ///<summary>
+        ///Создает и возвращает бирер токен
+        ///</summary>
         public string? Authenticate(string? username,bool Admin, ApplicationDbContext _db)
         {
             if (_db.Persons != null && !_db.Persons.Any(u=>u.Name == username && u.Admin == Admin))

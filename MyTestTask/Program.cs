@@ -8,13 +8,15 @@ using Microsoft.OpenApi.Models;
 using MyTestTask.Services.AdService;
 using MyTestTask.Services.UserService;
 using MyTestTask.AutoMapper;
-using AutoMapper;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => {
+builder.Services.AddSwaggerGen(c =>
+{
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "JWTToken_Auth_API",
@@ -39,7 +41,6 @@ builder.Services.AddSwaggerGen(c => {
         }
     });
 });
-
 var key = "very+very+very_$ecretKey";
 builder.Services.AddAuthentication(x =>
 {
@@ -68,7 +69,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
 ));
 
 var app = builder.Build();
-
+app.UseWhen(
+    context => context.Request.Path == "/MidlwareTestController/Error",
+    appBuilder =>
+    {
+        var time = DateTime.Now.ToShortTimeString();
+       
+        appBuilder.Run(async context =>
+        {
+            await context.Response.WriteAsync($"Нет доступа");
+        });
+    });
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

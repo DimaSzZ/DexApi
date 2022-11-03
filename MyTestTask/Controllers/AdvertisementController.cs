@@ -24,31 +24,47 @@ namespace MyTestTask.Controllers
 
         [Authorize]
         [HttpPost("CreateAd")]
+       
         public async Task<IActionResult> AddAd([FromBody] PostAdvertisementRequest CreateAdcontext)
         {
             var response = await _adController.PushAd(_db, CreateAdcontext);
+            if(response == null)
+                return BadRequest();
             return Ok(response);
         }
         [Authorize]
         [HttpPut("UpdateAd")]
+        
         public async Task<IActionResult> UpdateAd([FromBody] UpdateYourAdvertisementRequest UpdateContext)
         {
             var response = await _adController.UpdateAd(_db, UpdateContext);
+            if (response == null)
+                return BadRequest();
             return Ok(response);
         }
         [Authorize]
         [HttpDelete("DeleteAd")]
+
         public async Task<IActionResult> DeleteAd([FromBody] DeleteYourAdvertisementRequest DeleteContext)
         {
             var response = await _adController.DeleteAd(_db, DeleteContext);
+            if (response == null)
+                return BadRequest();
             return Ok(response);
         }
         [Authorize]
         [HttpGet("GetYourAllAd")]
+
         public async Task<IActionResult> GetYourAdvertisements()
         {
             var zxc = await _adController.GetAllAd(_db);
-            var response = _mapper.Map<GetYourAdvertisementResponse>(zxc);
+            var response = new List<GetYourAdvertisementResponse>();
+            if (response == null)
+                return BadRequest();
+            foreach (var item in zxc)
+            {
+                response.Add(_mapper.Map<GetYourAdvertisementResponse>(item));
+            }
             return Ok(response);
         }
     }

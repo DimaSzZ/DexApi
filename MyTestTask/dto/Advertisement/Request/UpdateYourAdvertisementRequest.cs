@@ -1,5 +1,8 @@
 ﻿namespace MyTestTask.dto.Advertisement.Request
 {
+    ///<summary>
+    ///Дто для отправки запроса на обновление объявления
+    ///</summary>
     public class UpdateYourAdvertisementRequest
     {
         public Guid Id { get; set; }

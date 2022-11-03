@@ -1,5 +1,8 @@
 ﻿namespace MyTestTask.dto.Advertisement.Response
 {
+    ///<summary>
+    ///Дто для получение ответа на запрос по получению все объявлений привязанных к пользователю
+    ///</summary>
     public class GetYourAdvertisementResponse
     {
         public string Number { get; set; }

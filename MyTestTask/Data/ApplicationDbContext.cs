@@ -8,6 +8,13 @@ namespace MyTestTask.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+
+        public ApplicationDbContext()
+        {
+        }
+        ///<summary>
+        ///Метод, для редактирования бд
+        ///</summary>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var ad = modelBuilder.Entity<Ad>();
